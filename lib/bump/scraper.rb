@@ -1,6 +1,3 @@
-require 'nokogiri'
-require 'open-uri'
-
 class Scraper
   attr_accessor :stage
 
@@ -53,10 +50,6 @@ class Scraper
       content: html.css("div.body-content").text
     }
 
-    puts article_hash[:content]
+    Article.new_from_hash(article_hash)
   end
 end
-
-scraper = Scraper.new
-scraper.stage = 0
-scraper.get_articles
