@@ -12,4 +12,12 @@ class Article
       article.send("#{k}=", v)
     end
   end
+
+  def self.all
+    @@all
+  end
+
+  def self.reset_all
+    @@all = []
+  end
 end

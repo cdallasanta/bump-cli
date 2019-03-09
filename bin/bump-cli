@@ -1,3 +1,5 @@
 #!/usr/bin/env ruby
 
-require_relative "../lib/bump"
+require_relative "../config/environment.rb"
+
+Cli.new.call

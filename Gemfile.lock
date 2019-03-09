@@ -6,6 +6,10 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
+    colorize (0.8.1)
+    mini_portile2 (2.4.0)
+    nokogiri (1.10.1)
+      mini_portile2 (~> 2.4.0)
     rake (10.4.2)
 
 PLATFORMS
@@ -14,6 +18,8 @@ PLATFORMS
 DEPENDENCIES
   bump-cli!
   bundler (~> 1.17)
+  colorize
+  nokogiri
   rake (~> 10.0)
 
 BUNDLED WITH
