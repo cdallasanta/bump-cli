@@ -53,7 +53,7 @@ class Scraper
       content: html.css("div.body-content").text
     }
 
-    puts html.css("div#pre-content-container h1").text
+    puts article_hash[:content]
   end
 end
 
