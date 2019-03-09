@@ -38,21 +38,25 @@ class Scraper
     html = Nokogiri::HTML(open("https://www.thebump.com"))
     all_sections = html.css(".homepage-panel---articles")
     all_sections[@stage].css(".homepage-panel--item").each do |article|
-      puts article.attribute("href").value
-    end
-=begin
-    all_cards.each do |card|
-      article_url = card.css("a").attribute("href").value
+      article_url = article.attribute("href").value
       scrape_article(article_url)
     end
-=end
+    puts ""
   end
 
   def scrape_article(url)
-    puts url
+    html = Nokogiri::HTML(open(url))
+    article_hash = {
+      title: html.css("div#pre-content-container h1").text,
+      subtitle: html.css("div#pre-content-container .dek").text,
+      author: html.css("div#pre-content-container .contributor-name"),
+      content: html.css("div.body-content").text
+    }
+
+    puts html.css("div#pre-content-container h1").text
   end
 end
 
 scraper = Scraper.new
-scraper.stage = ""
+scraper.stage = 0
 scraper.get_articles
