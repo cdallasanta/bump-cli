@@ -20,7 +20,7 @@ class Scraper
       title: html.css("div#pre-content-container h1").text.gsub("\n",""),
       subtitle: html.css("div#pre-content-container .dek").text.gsub("\n",""),
       author: html.css("div#pre-content-container .contributor-name").text.gsub("\n",""),
-      content: html.css("div.body-content p, div.body-content h2")
+      content: html.css("div.body-content p, div.body-content h2, div.body-content ul")
     }
 
     Article.new_from_hash(article_hash)

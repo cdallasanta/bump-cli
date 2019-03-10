@@ -6,22 +6,13 @@ class Article
     @@all << self
   end
 
-  def clean_up_content
-    binding.pry
-    @content = @content.reject {|para| para.text==""}
-    @content.each do |para|
-      para.text.gsub("â","\'")
-      para.text.gsub("'¢","-")
-    end
-  end
-
   def self.new_from_hash(hash)
     article = Article.new
     hash.each do |k,v|
       article.send("#{k}=", v)
     end
 
-    article.clean_up_content
+    article.content = article.content.reject {|para| para.text==""}
   end
 
   def self.all

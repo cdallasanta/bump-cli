@@ -76,15 +76,21 @@ class Cli
   def show_article_content(choice, paragraph)
     article = Article.all[choice]
 
-    #puts the next paragraph of the article. If what is next is an h2, it places that THEN the next paragraph
+    #puts the next paragraph of the article. If what is next is an h*, it places that THEN the next paragraph
+    #if the next paragraph is an ul, then it puts the whole list
+    #it also cleans up the text as it puts it out
     if ["h1","h2","h3","h4"].include?(article.content[paragraph].name)
-      puts article.content[paragraph].text.gsub("â","\'").colorize(:yellow)
+      puts article.content[paragraph].text.gsub(/â.*¢/,"-").gsub("â","\'").colorize(:yellow)
       paragraph += 1
-      puts article.content[paragraph].text.gsub("â","\'")
+      puts article.content[paragraph].text.gsub(/â.*¢/,"-").gsub("â","\'")
     elsif article.content[paragraph].name == "ul"
-      #TODO formatting for ul
+      article.content[paragraph].children.each do |li|
+        if li.name == "li"
+          puts "- " + li.text.gsub(/â.*¢/,"-").gsub("â","\'")
+        end
+      end
     else
-      puts article.content[paragraph].text.gsub("â","\'")
+      puts article.content[paragraph].text.gsub(/â.*¢/,"-").gsub("â","\'")
     end
 
     #for continuing, this checks if we are at the end of the article, and offers the next paragraph if it is not
