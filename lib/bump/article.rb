@@ -8,8 +8,8 @@ class Article
 
   def self.new_from_hash(hash)
     article = Article.new
-    hash.each do |k,v|
-      article.send("#{k}=", v)
+    hash.each do |attribute, value|
+      article.send("#{attribute}=", value)
     end
 
     article.content = article.content.reject {|para| para.text==""}

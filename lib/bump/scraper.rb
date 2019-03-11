@@ -1,14 +1,8 @@
 class Scraper
-  attr_accessor :stage
-
-  def initialize
-    @stage = ""
-  end
-
-  def get_articles
+  def get_articles(stage)
     html = Nokogiri::HTML(open("https://www.thebump.com"))
     all_sections = html.css(".homepage-panel---articles")
-    all_sections[@stage].css(".homepage-panel--item").each do |article|
+    all_sections[stage].css(".homepage-panel--item").each do |article|
       article_url = article.attribute("href").value
       scrape_article(article_url)
     end

@@ -8,8 +8,7 @@ class Cli
 
   def call
     puts "Welcome to The Bump CLI!".colorize(:blue)
-    set_stage
-    scraper.get_articles
+    scraper.get_articles(set_stage)
 
     puts "Please select an article:".colorize(:blue)
     display_article_titles
@@ -39,27 +38,23 @@ class Cli
   end
 
   def set_stage
-    until [*0..4].include?(scraper.stage)
-      get_stage_input
+    stage = ""
+    until [*0..4].include?(stage)
+      puts "What stage of pregnancy is your family in?".colorize(:blue)
+      puts "Please select the number from the following options:".colorize(:blue)
+      puts "1 - Getting Pregnant"
+      puts "2 - First Trimester"
+      puts "3 - Second Trimester"
+      puts "4 - Third Trimester"
+      puts "5 - Parenting"
+      stage = gets.chomp.to_i - 1
     end
-  end
-
-  def get_stage_input
-    puts "What stage of pregnancy is your family in?".colorize(:blue)
-    puts "Please select the number from the following options:".colorize(:blue)
-    puts "1 - Getting Pregnant"
-    puts "2 - First Trimester"
-    puts "3 - Second Trimester"
-    puts "4 - Third Trimester"
-    puts "5 - Parenting"
-    scraper.stage = gets.chomp.to_i - 1
+    stage
   end
 
   def display_article_titles
-    num = 1
-    Article.all.each do |article|
-      puts "#{num} - #{article.title}"
-      num +=1
+    Article.all.each.with_index(1) do |article, i|
+      puts "#{i} - #{article.title}"
     end
   end
 
@@ -94,20 +89,23 @@ class Cli
     end
 
     #for continuing, this checks if we are at the end of the article, and offers the next paragraph if it is not
-    if paragraph+1 < article.content.length
-      puts '(enter "c" to continue, or "exit" to exit)'.colorize(:blue)
-      user_choice = gets.chomp
+    if paragraph + 1 < article.content.length
+      response = ask_to_continue
 
-      #loop in case the user inputs an invalid choice
-      until ['c','exit'].include?(user_choice)
-        puts '(enter "c" to continue, or "exit" to exit)'.colorize(:blue)
-        user_choice = gets.chomp
-      end
-      if user_choice == 'c'
+      if response == ''
         show_article_content(choice, paragraph+1)
       end
     else
       puts "(End of article)"
     end
+  end
+
+  def ask_to_continue
+    user_choice = nil
+    until ['','exit'].include?(user_choice)
+      puts '(press enter to continue, or type "exit" to exit)'.colorize(:blue)
+      user_choice = gets.chomp
+    end
+    user_choice
   end
 end
