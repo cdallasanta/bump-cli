@@ -5,7 +5,7 @@ require "bump/cli/version"
 
 Gem::Specification.new do |spec|
   spec.name          = "bump-cli"
-  spec.version       = Bump::Cli::VERSION
+  spec.version       = bump-cli::VERSION
   spec.authors       = ["'Chris Dalla Santa'"]
   spec.email         = ["'chris.dallasanta@gmail.com'"]
 
