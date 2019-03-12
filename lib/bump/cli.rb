@@ -12,13 +12,13 @@ class Cli
     scraper.get_articles(family_stage)
 
     puts "Please select an article:".colorize(:blue)
-    display_article_titles
+    show_article_titles
     article_choice = set_article
 
     show_article_header(article_choice)
     show_article_content(article_choice, 0)
 
-    check_to_continue
+    ask_for_another_article
   end
 
   def set_stage
@@ -45,7 +45,7 @@ class Cli
     article_choice
   end
 
-  def display_article_titles
+  def show_article_titles
     Article.all.each.with_index(1) do |article, i|
       puts "#{i} - #{article.title}"
     end
@@ -64,7 +64,7 @@ class Cli
   def show_article_content(choice, paragraph)
     article = Article.all[choice]
 
-    #puts the next paragraph of the article. If what is next is an h*, it places that THEN the next paragraph
+    #puts the next paragraph of the article. If what is next is a header, it places that AND the next paragraph
     #if the next paragraph is an ul, then it puts the whole list
     #it also cleans up the text as it puts it out
     if ["h1","h2","h3","h4"].include?(article.content[paragraph].name)
@@ -102,9 +102,9 @@ class Cli
     user_choice
   end
 
-  def check_to_continue
+  def ask_for_another_article
     puts "Would you like to read another article? (y/n)".colorize(:blue)
-    continue = gets.chomp
+    continue = gets.chomp.lowercase
 
     if continue == 'y'
       Article.reset_all
@@ -112,7 +112,7 @@ class Cli
     elsif continue == 'n'
       puts "Goodbye!".colorize(:blue)
     else
-      check_to_continue
+      ask_for_another_article
     end
   end
 end
