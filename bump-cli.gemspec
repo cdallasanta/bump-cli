@@ -1,15 +1,15 @@
 
 lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "bump/cli/version"
+require "bump-cli/version"
 
 Gem::Specification.new do |spec|
   spec.name          = "bump-cli"
-  spec.version       = bump-cli::VERSION
+  spec.version       = BumpCli::VERSION
   spec.authors       = ["'Chris Dalla Santa'"]
   spec.email         = ["'chris.dallasanta@gmail.com'"]
 
-  spec.summary       = %q{Ruby cli for reading articles from theBump.com}
+  spec.summary       = %q{This Ruby Gem provides a CLI to view articles from www.thebump.com}
   spec.homepage      = "https://github.com/cdallasanta/bump-cli"
   spec.license       = "MIT"
 

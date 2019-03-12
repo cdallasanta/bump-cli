@@ -3,6 +3,6 @@ require 'open-uri'
 require 'colorize'
 require 'pry'
 
-require_relative "../lib/bump/cli.rb"
-require_relative "../lib/bump/article.rb"
-require_relative "../lib/bump/scraper.rb"
+require_relative "../lib/cli.rb"
+require_relative "../lib/article.rb"
+require_relative "../lib/scraper.rb"
