@@ -8,33 +8,17 @@ class Cli
 
   def call
     puts "Welcome to The Bump CLI!".colorize(:blue)
-    scraper.get_articles(set_stage)
+    family_stage = set_stage
+    scraper.get_articles(family_stage)
 
     puts "Please select an article:".colorize(:blue)
     display_article_titles
-    article_choice = gets.chomp.to_i - 1
-    until [*0..4].include?(article_choice)
-      puts "Please select an article by its number".colorize(:blue)
-      article_choice = gets.chomp.to_i - 1
-    end
+    article_choice = set_article
 
     show_article_header(article_choice)
     show_article_content(article_choice, 0)
 
-    puts "Would you like to read another article? (y/n)".colorize(:blue)
-    continue = gets.chomp
-    until continue == 'y' || continue == 'n'
-      puts "Would you like to read another article? (y/n)".colorize(:blue)
-      continue = gets.chomp
-    end
-
-    if continue == 'y'
-      Article.reset_all
-      scraper.stage = ""
-      call
-    elsif continue == 'n'
-      puts "Goodbye!".colorize(:blue)
-    end
+    check_to_continue
   end
 
   def set_stage
@@ -50,6 +34,15 @@ class Cli
       stage = gets.chomp.to_i - 1
     end
     stage
+  end
+
+  def set_article
+    article_choice = gets.chomp.to_i - 1
+    until [*0..4].include?(article_choice)
+      puts "Please select an article by its number".colorize(:blue)
+      article_choice = gets.chomp.to_i - 1
+    end
+    article_choice
   end
 
   def display_article_titles
@@ -107,5 +100,19 @@ class Cli
       user_choice = gets.chomp
     end
     user_choice
+  end
+
+  def check_to_continue
+    puts "Would you like to read another article? (y/n)".colorize(:blue)
+    continue = gets.chomp
+
+    if continue == 'y'
+      Article.reset_all
+      call
+    elsif continue == 'n'
+      puts "Goodbye!".colorize(:blue)
+    else
+      check_to_continue
+    end
   end
 end
