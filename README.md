@@ -20,9 +20,9 @@ Or install it yourself as:
 
 ## Usage
 
-Type the below and follow the on screen prompts.
+Type the line below and follow the on screen prompts.
 
-    $ bin/bump-cli
+    $ bump-cli
 
 ## Development
 
