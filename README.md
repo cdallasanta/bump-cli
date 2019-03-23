@@ -7,22 +7,22 @@ This Ruby Gem provides a CLI to view articles from www.thebump.com
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'bump-cli'
+gem 'the-bump-cli'
 ```
 
 And then execute:
 
-    $ bundle
+    $ the-bump-cli
 
 Or install it yourself as:
 
-    $ gem install bump-cli
+    $ gem install the-bump-cli
 
 ## Usage
 
 Type the line below and follow the on screen prompts.
 
-    $ bump-cli
+    $ the-bump-cli
 
 ## Development
 
