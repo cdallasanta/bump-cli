@@ -8,17 +8,17 @@ class Cli
 
   def call
     puts "Welcome to The Bump CLI!".colorize(:blue)
-    family_stage = set_stage - 1
+    family_stage = self.set_stage - 1
     scraper.get_articles(family_stage)
 
     puts "Please select an article:".colorize(:blue)
-    show_article_titles
-    article_choice = set_article - 1
+    self.show_article_titles
+    article_choice = self.set_article - 1
 
-    show_article_header(article_choice)
-    show_article_content(article_choice, 0)
+    self.show_article_header(article_choice)
+    self.show_article_content(article_choice)
 
-    ask_for_another_article
+    self.ask_for_another_article
   end
 
   def set_stage
@@ -61,29 +61,29 @@ class Cli
     puts ""
   end
 
-  def show_article_content(choice, paragraph)
+  def show_article_content(choice, paragraph = 0)
     article = Article.all[choice]
 
-    #puts the next paragraph of the article. If what is next is a header, it places that AND the next paragraph
-    #if the next paragraph is an ul, then it puts the whole list
-    #it also cleans up the text as it puts it out
+    # if it is a header, put the colorized header and the next paragraph (cleanup up with the gsub)
     if ["h1","h2","h3","h4"].include?(article.content[paragraph].name)
       puts article.content[paragraph].text.gsub(/â.*¢/,"-").gsub("â","\'").colorize(:yellow)
       paragraph += 1
       puts article.content[paragraph].text.gsub(/â.*¢/,"-").gsub("â","\'")
+    # if it is a list, put all the list items out at once
     elsif article.content[paragraph].name == "ul"
       article.content[paragraph].children.each do |li|
         if li.name == "li"
           puts "- " + li.text.gsub(/â.*¢/,"-").gsub("â","\'")
         end
       end
+    # otherwise, put the paragraph
     else
       puts article.content[paragraph].text.gsub(/â.*¢/,"-").gsub("â","\'")
     end
 
-    #for continuing, this checks if we are at the end of the article, and offers the next paragraph if it is not
+    # for continuing, this checks if we are at the end of the article, and offers the next paragraph if it is not
     if paragraph + 1 < article.content.length
-      response = ask_to_continue
+      response = self.ask_to_continue
 
       if response == ''
         show_article_content(choice, paragraph+1)
@@ -108,11 +108,11 @@ class Cli
 
     if continue == 'y'
       Article.reset_all
-      call
+      self.call
     elsif continue == 'n'
       puts "Goodbye!".colorize(:blue)
     else
-      ask_for_another_article
+      self.ask_for_another_article
     end
   end
 end
