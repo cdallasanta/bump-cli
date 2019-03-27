@@ -1,9 +1,13 @@
 class Article
-  attr_accessor :author, :title, :subtitle, :content
+  attr_accessor :author, :title, :subtitle, :content, :stage
   @@all = []
 
   def initialize
     @@all << self
+  end
+
+  def self.find_by_stage(stage)
+    @@all.select {|article| article.stage == stage}
   end
 
   def self.new_from_hash(hash)

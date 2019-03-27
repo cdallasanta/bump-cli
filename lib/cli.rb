@@ -1,15 +1,20 @@
 class Cli
-  attr_accessor :scraper
+  attr_accessor :scraper, :article_collection
 
   def initialize
     @scraper = Scraper.new
-    Article.reset_all
   end
 
   def call
     puts "Welcome to The Bump CLI!".colorize(:blue)
     family_stage = self.set_stage - 1
-    scraper.get_articles(family_stage)
+
+    #if the stage has not been run yet, then scrape for that stage
+    if Article.find_by_stage(family_stage) == []
+      scraper.get_articles(family_stage)
+    end
+    #set the current articles to the selected stage
+    article_collection = Article.find_by_stage(family_stage)
 
     puts "Please select an article:".colorize(:blue)
     self.show_article_titles
@@ -46,13 +51,13 @@ class Cli
   end
 
   def show_article_titles
-    Article.all.each.with_index(1) do |article, i|
+    article_collection.each.with_index(1) do |article, i|
       puts "#{i} - #{article.title}"
     end
   end
 
   def show_article_header(choice)
-    article = Article.all[choice]
+    article = article_collection[choice]
 
     puts ""
     puts article.title.colorize(:light_yellow).underline
@@ -62,7 +67,7 @@ class Cli
   end
 
   def show_article_content(choice, paragraph = 0)
-    article = Article.all[choice]
+    article = article_collection[choice]
 
     # if it is a header, put the colorized header and the next paragraph (cleanup up with the gsub)
     if ["h1","h2","h3","h4"].include?(article.content[paragraph].name)
@@ -107,7 +112,6 @@ class Cli
     continue = gets.chomp.downcase
 
     if continue == 'y'
-      Article.reset_all
       self.call
     elsif continue == 'n'
       puts "Goodbye!".colorize(:blue)
