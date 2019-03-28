@@ -15,7 +15,6 @@ class TheBumpCli::Article
     hash.each do |attribute, value|
       article.send("#{attribute}=", value)
     end
-  binding.pry
     article.content = article.content.reject {|para| para.text==""}
   end
 
