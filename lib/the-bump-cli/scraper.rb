@@ -1,4 +1,4 @@
-class Scraper
+class TheBumpCli::Scraper
   def get_articles(stage)
     puts "SCRAPING #{stage} ******************************************"
 
@@ -21,6 +21,6 @@ class Scraper
       stage: stage
     }
 
-    Article.new_from_hash(article_hash)
+    TheBumpCli::Article.new_from_hash(article_hash)
   end
 end

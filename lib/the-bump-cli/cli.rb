@@ -1,8 +1,8 @@
-class Cli
+class TheBumpCli::Cli
   attr_accessor :scraper, :article_collection
 
   def initialize
-    @scraper = Scraper.new
+    @scraper = TheBumpCli::Scraper.new
   end
 
   def call
@@ -10,11 +10,11 @@ class Cli
     family_stage = self.set_stage - 1
 
     #if the stage has not been run yet, then scrape for that stage
-    if Article.find_by_stage(family_stage) == []
+    if TheBumpCli::Article.find_by_stage(family_stage) == []
       scraper.get_articles(family_stage)
     end
     #set the current articles to the selected stage
-    article_collection = Article.find_by_stage(family_stage)
+    article_collection = TheBumpCli::Article.find_by_stage(family_stage)
 
     puts "Please select an article:".colorize(:blue)
     self.show_article_titles

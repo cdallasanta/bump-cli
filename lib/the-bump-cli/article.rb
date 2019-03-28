@@ -1,4 +1,4 @@
-class Article
+class TheBumpCli::Article
   attr_accessor :author, :title, :subtitle, :content, :stage
   @@all = []
 
@@ -11,11 +11,11 @@ class Article
   end
 
   def self.new_from_hash(hash)
-    article = Article.new
+    article = TheBumpCli::Article.new
     hash.each do |attribute, value|
       article.send("#{attribute}=", value)
     end
-
+  binding.pry
     article.content = article.content.reject {|para| para.text==""}
   end
 
