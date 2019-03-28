@@ -11,7 +11,6 @@ class TheBumpCli::Cli
 
     #if the stage has not been run yet, then scrape for that stage
     if TheBumpCli::Article.find_by_stage(family_stage) == []
-      puts "made it into the scraper?"
       scraper.get_articles(family_stage)
     end
     #set the current articles to the selected stage
